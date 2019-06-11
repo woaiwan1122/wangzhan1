@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="top">
+			<div class="logo">TodoList</div>
+			<input type="text" id="input" />
+		</div>
+		
+		
+		<div class="weiwan">
+			<h1><span class="title">正在进行 </span> <span class="num">0</span></h1>
+			
+			<div class="list">
+				<!--<div class="listItem">
+					<div class="checkbox">
+						<input type="checkbox" name="" id="" value="" />
+					</div>
+					<div class="content">
+						吃一顿夜宵烧烤吃一顿夜宵烧烤吃一顿夜宵烧烤吃一顿夜宵烧烤吃一顿夜宵烧烤吃一顿夜宵烧烤吃一顿夜宵烧烤吃一顿夜宵烧烤
+					</div>
+					<div class="del"><span>-</span></div>
+				</div>-->
+			</div>
+		</div>
+		
+		<div class="yiwan">
+			<h1><span class="title">已经完成</span> <span class="num">0</span></h1>
+			<div class="list">
+				<!--<div class="listItem">
+					<div class="checkbox">
+						<input type="checkbox"  name="" id="" value="" />
+					</div>
+					<div class="content">
+						吃一顿夜宵烧烤吃一顿夜宵烧烤吃一顿夜宵烧烤吃一顿夜宵烧烤吃一顿夜宵烧烤吃一顿夜宵烧烤吃一顿夜宵烧烤吃一顿夜宵烧烤
+					</div>
+					<div class="del"><span>-</span></div>
+				</div>-->
+			</div>
+		</div>
+		
+		
+		<script type="text/javascript">
+			var input = document.querySelector('#input')
+			var weiwan = document.querySelector('.weiwan .list')
+			var yiwan = document.querySelector('.yiwan .list')
+			
+			if(localStorage.weiwan){
+				var weiwanList = JSON.parse(localStorage.weiwan)
+				RenderWeiwan()
+			}else{
+				var weiwanList = []
+			}
+			
+			if(localStorage.yiwan){
+				var yiwanList = JSON.parse(localStorage.yiwan)
+				RenderYiwan()
+			}else{
+				var yiwanList = []
+			}
+			
+			
+			
+			input.onkeydown = function(e){
+				if(e.key=='Enter'){
+					console.log(e)
+//					console.log(input.value)
+//					console.log(this.value)
+					var value = this.value
+					var newDiv = document.createElement('div')
+					newDiv.className = 'listItem'
+					
+					console.log(newDiv.dataset)
+					newDiv.dataset.index = weiwanList.length
+					newDiv.innerHTML = `
+					<div class="checkbox">
+						<input type="checkbox" name="" id="" value="" />
+					</div>
+					<div class="content">
+						${value}
+					</div>
+					<div class="del"><span>-</span></div>
+					`
+					weiwan.appendChild(newDiv)
+					
+					newDiv.onclick = function(e){
+						console.log(e)
+						if(e.target.tagName == 'SPAN'){
+							newDiv.parentElement.removeChild(newDiv)
+							if(e.path[4].className=='weiwan'){
+								var index =  e.path[2].dataset.index
+								weiwanList.splice(index)
+							}else{
+								var index =  e.path[2].dataset.index
+								yiwanList.splice(index)
+							}
+							console.log(index)
+							console.log(yiwanList)
+							console.log(weiwanList)
+							countNode()
+						}
+						
+					}
+					
+					
+					
+					weiwanList.push(value)
+					countNode()
+					
+
+				}
+			}
+			
+			
+			weiwan.onchange = function(e){
+				console.log(e)
+				var listItem = e.path[2]
+				
+				
+				
+				
+				
+				var index =  e.path[2].dataset.index
+//				console.log(index)
+				var sliceValue = weiwanList.splice(index,1)
+//				console.log(sliceValue)
+//
+//				
+//				console.log(yiwanList)
+
+
+				e.path[2].dataset.index = yiwanList.length
+				yiwanList = yiwanList.concat(sliceValue)
+				console.log(weiwanList)
+				console.log(yiwanList)
+				
+				
+				yiwan.appendChild(listItem)
+				
+				countNode()
+			}
+			
+			
+			yiwan.onchange = function(e){
+//				console.log(e)
+//				var listItem = e.path[2]
+//				weiwan.appendChild(listItem)
+//				var index =  e.path[2].dataset.index
+//				countNode()
+				
+				///-----------
+				
+				console.log(e)
+				var listItem = e.path[2]
+				
+				
+				
+				
+				
+				var index =  e.path[2].dataset.index
+//				console.log(index)
+				var sliceValue = yiwanList.splice(index,1)
+//				console.log(sliceValue)
+//
+//				
+//				console.log(yiwanList)
+
+
+				e.path[2].dataset.index = weiwanList.length
+				weiwanList = weiwanList.concat(sliceValue)
+				console.log(weiwanList)
+				console.log(yiwanList)
+				
+				
+				weiwan.appendChild(listItem)
+				
+				countNode()
+				
+				
+			}
+			
+			function countNode(){
+				var weiwanNum = weiwan.childElementCount
+				document.querySelector('.weiwan h1 .num').innerHTML = weiwanNum
+				console.log(weiwanNum)
+				
+				for(var i=0;i<weiwanNum;i++){
+					weiwan.children[i].dataset.index = i
+				}
+				
+				
+				var yiwanNum = yiwan.childElementCount
+				document.querySelector('.yiwan h1 .num').innerHTML = yiwanNum
+				
+				for(var i=0;i<yiwanNum;i++){
+					yiwan.children[i].dataset.index = i
+				}
+				
+				
+				var weiwanStr = JSON.stringify(weiwanList) 
+				console.log(weiwanStr)
+				var yiwanStr = JSON.stringify(yiwanList)
+				
+				
+				localStorage.weiwan = weiwanStr
+				localStorage.yiwan = yiwanStr
+			}
+			
+			
+			
+			function RenderWeiwan(){
+				for(var i = 0;i<weiwanList.length;i++){
+					var value = weiwanList[i]
+					var newDiv = document.createElement('div')
+					newDiv.className = 'listItem'
+					
+					console.log(newDiv.dataset)
+					newDiv.dataset.index = i
+					newDiv.innerHTML = `
+					<div class="checkbox">
+						<input  type="checkbox" name="" id="" value="" />
+					</div>
+					<div class="content">
+						${value}
+					</div>
+					<div class="del"><span>-</span></div>
+					`
+					weiwan.appendChild(newDiv)
+					
+					newDiv.onclick = function(e){
+						console.log(e)
+						if(e.target.tagName == 'SPAN'){
+							newDiv.parentElement.removeChild(newDiv)
+							if(e.path[4].className=='weiwan'){
+								var index =  e.path[2].dataset.index
+								weiwanList.splice(index)
+							}else{
+								var index =  e.path[2].dataset.index
+								yiwanList.splice(index)
+							}
+							console.log(index)
+							console.log(yiwanList)
+							console.log(weiwanList)
+							countNode()
+						}
+						
+					}
+					
+					
+					
+//					weiwanList.push(value)
+//					countNode()
+				}
+			}
+			
+			
+			
+			
+			function RenderYiwan(){
+				for(var i = 0;i<yiwanList.length;i++){
+					var value = yiwanList[i]
+					var newDiv = document.createElement('div')
+					newDiv.className = 'listItem'
+					
+					console.log(newDiv.dataset)
+					newDiv.dataset.index = i
+					newDiv.innerHTML = `
+					<div class="checkbox">
+						<input  type="checkbox" checked="checked"  name="" id="" value="" />
+					</div>
+					<div class="content">
+						${value}
+					</div>
+					<div class="del"><span>-</span></div>
+					`
+					yiwan.appendChild(newDiv)
+					
+					newDiv.onclick = function(e){
+						console.log(e)
+						if(e.target.tagName == 'SPAN'){
+							newDiv.parentElement.removeChild(newDiv)
+							if(e.path[4].className=='weiwan'){
+								var index =  e.path[2].dataset.index
+								weiwanList.splice(index)
+							}else{
+								var index =  e.path[2].dataset.index
+								yiwanList.splice(index)
+							}
+							console.log(index)
+							console.log(yiwanList)
+							console.log(weiwanList)
+							countNode()
+						}
+						
+					}
+			}
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,98 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	
+}
+
+body{
+	font-size: 0.2rem;
+	background: #CDCDCD;
+}
+.top{
+	width: 3.75rem;
+	height: 0.5rem;
+	background: rgba(47,47,47,0.98);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	color: #fff;
+	padding: 0 0.1rem;
+	
+	
+}
+.top #input{
+	width: 2.3rem;
+	height: 0.35rem;
+	border-radius: 0.05rem;
+	padding: 0 0.05rem;
+	outline: none;
+	border: 1px solid #ccc;
+}
+
+h1 .title{
+	font-size: 0.3rem;
+	padding: 0 0.10rem;
+}
+h1 .num{
+	font-size: 0.2rem;
+	margin: 0 0.10rem;
+	display: inline-block;
+	width: 0.3rem;
+	height: 0.3rem;
+	border-radius: 0.15rem;
+	background: #efefef;
+	text-align: center;
+	line-height: 0.3rem;
+}
+.weiwan h1,.yiwan h1{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0.2rem 0;
+}
+
+.listItem{
+	width: 3.6rem;
+	/*height: 0.32rem;*/
+	background: #fff;
+	border-radius: 0.05rem;
+	display: flex;
+	margin:  0 auto 0.12rem;
+}
+.listItem .content{
+	width: 2.65rem;
+	/*height: 0.32rem;*/
+	line-height: 0.32rem;
+	font-size: 0.16rem;
+	
+}
+.listItem .checkbox,.listItem .del{
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.listItem .checkbox input{
+	width: 0.25rem;
+	height: 0.25rem;
+}
+.listItem .del span{
+	width: 0.25rem;
+	height: 0.25rem;
+	border-radius: 0.125rem;
+	background: deeppink;
+	color: #fff;
+	text-align: center;
+	font-weight: 900;
+	
+}
+
+.yiwan .listItem{
+	opacity: 0.5;
+}
+
+
+
+
+
